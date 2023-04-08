@@ -1,9 +1,21 @@
 import { Injectable } from '@nestjs/common';
-import { users } from '../../mocks';
+import { User } from './models/user.model';
+import { InjectModel } from '@nestjs/sequelize';
+import * as bcrypt from 'bcrypt';
+import { UserDTO } from './dto';
 
 @Injectable()
 export class UserService {
-  getUsers() {
-    return users;
+  constructor(
+    @InjectModel(User) private readonly userRepository: typeof User,
+  ) {}
+
+  async hashPassword(password) {
+    return bcrypt.hash(password, 10);
+  }
+  async createUser(dto): Promise<UserDTO> {
+    dto.password = await this.hashPassword(dto.password);
+    await this.userRepository.create(dto);
+    return dto;
   }
 }
