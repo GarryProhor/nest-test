@@ -21,7 +21,7 @@ export class WatchlistController {
   @Post('/create')
   createAsset(@Body() assetDto: WatchListDTO, @Req() request) {
     const user = request.user;
-    return '';
+    return this.watchList.createAsset(user, assetDto);
   }
 
   @Get('/get-all')
