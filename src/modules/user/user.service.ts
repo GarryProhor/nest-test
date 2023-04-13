@@ -3,6 +3,7 @@ import { User } from './models/user.model';
 import { InjectModel } from '@nestjs/sequelize';
 import * as bcrypt from 'bcrypt';
 import { UpdateUserDto, UserDTO } from './dto';
+import { Watchlist } from '../watchlist/model/watchlist.model';
 
 @Injectable()
 export class UserService {
@@ -31,6 +32,10 @@ export class UserService {
     return this.userRepository.findOne({
       where: { email: email },
       attributes: { exclude: ['password'] },
+      include: {
+        model: Watchlist,
+        required: false,
+      },
     });
   }
   async updateUser(email: string, dto: UpdateUserDto): Promise<UpdateUserDto> {
