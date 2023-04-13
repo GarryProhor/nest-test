@@ -18,4 +18,11 @@ export class WatchlistService {
     await this.watchListRepository.create(watchList);
     return watchList;
   }
+
+  async deleteAsset(userId: number, assetId: string): Promise<boolean> {
+    await this.watchListRepository.destroy({
+      where: { id: assetId, user: userId },
+    });
+    return true;
+  }
 }

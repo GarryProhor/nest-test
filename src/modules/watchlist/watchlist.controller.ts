@@ -24,18 +24,14 @@ export class WatchlistController {
     return this.watchList.createAsset(user, assetDto);
   }
 
-  @Get('/get-all')
-  getAllAssets() {
-    return;
-  }
+  /*@Get получаем при логине пользователя*/
 
-  @Patch('/update')
-  updateAsset() {
-    return;
-  }
+  /*@Patch нет необходимости изменять*/
 
-  @Delete('/:id')
-  deleteAsset(@Query('id') id: string) {
-    return;
+  @UseGuards(JwtAuthGuard)
+  @Delete()
+  deleteAsset(@Query('id') assetId: string, @Req() request): Promise<boolean> {
+    const { id } = request.user;
+    return this.watchList.deleteAsset(id, assetId);
   }
 }
