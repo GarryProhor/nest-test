@@ -1,9 +1,9 @@
-import { Column, Model, Table } from 'sequelize-typescript';
+import { Column, ForeignKey, Model, Table } from 'sequelize-typescript';
 import { User } from '../../user/models/user.model';
 
 @Table
-export class WatchlistModel extends Model {
-  @Column
+export class Watchlist extends Model {
+  @ForeignKey(() => User)
   user: User;
 
   @Column
